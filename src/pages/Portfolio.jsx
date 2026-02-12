@@ -2,19 +2,21 @@ import React from 'react';
 import Section from '../components/ui/Section';
 import Card from '../components/ui/Card';
 import useScrollAnimation from '../hooks/useScrollAnimation';
-
-const projects = [
-    { title: "FinTech AI", cat: "Financial Analysis", desc: "Real-time fraud detection system processing millions of transactions." },
-    { title: "HealthFlow", cat: "Healthcare SaaS", desc: "Patient management platform with predictive scheduling." },
-    { title: "EcoSmart", cat: "IoT & Data", desc: "Smart city grid monitoring and energy optimization." },
-    { title: "Lumina", cat: "E-Commerce", desc: "AI-driven product recommendation engine." }
-];
+import { useLanguage } from '../context/LanguageContext';
 
 const Portfolio = () => {
     const headerAnimation = useScrollAnimation({ threshold: 0.2 });
+    const { t } = useLanguage();
+
+    const projects = [
+        { title: t('proj_fintech'), cat: t('proj_fintech_cat'), desc: t('proj_fintech_desc') },
+        { title: t('proj_health'), cat: t('proj_health_cat'), desc: t('proj_health_desc') },
+        { title: t('proj_eco'), cat: t('proj_eco_cat'), desc: t('proj_eco_desc') },
+        { title: t('proj_lumina'), cat: t('proj_lumina_cat'), desc: t('proj_lumina_desc') }
+    ];
 
     return (
-        <div style={{ paddingTop: '80px' }}>
+        <div style={{ paddingTop: 'var(--nav-height)' }}>
             <Section className="text-center">
                 <div ref={headerAnimation.ref}>
                     <h1
@@ -25,25 +27,26 @@ const Portfolio = () => {
                             opacity: headerAnimation.isVisible ? 1 : 0
                         }}
                     >
-                        Our Work
+                        {t('portfolio_title')}
                     </h1>
                     <p
                         className={headerAnimation.isVisible ? 'fade-in-down stagger-1' : ''}
                         style={{
                             maxWidth: '700px',
                             margin: '0 auto',
-                            fontSize: '1.2rem',
+                            fontSize: '1.15rem',
                             color: 'var(--color-text-light)',
-                            opacity: headerAnimation.isVisible ? 1 : 0
+                            opacity: headerAnimation.isVisible ? 1 : 0,
+                            lineHeight: 1.8
                         }}
                     >
-                        Showcasing innovation across industries.
+                        {t('portfolio_desc')}
                     </p>
                 </div>
             </Section>
 
             <Section>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '2rem' }}>
+                <div className="portfolio-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '2rem' }}>
                     {projects.map((p, i) => (
                         <Card
                             key={i}
@@ -53,7 +56,6 @@ const Portfolio = () => {
                             style={{ padding: 0, overflow: 'hidden' }}
                         >
                             <div
-                                className="hover-scale"
                                 style={{
                                     height: '200px',
                                     background: `linear-gradient(135deg, ${i % 2 === 0 ? '#7A3FF2' : '#4F7BFF'} 0%, #2ED3E6 100%)`,
@@ -62,51 +64,31 @@ const Portfolio = () => {
                                     justifyContent: 'center',
                                     color: 'white',
                                     fontWeight: 'bold',
+                                    fontSize: '1.2rem',
                                     position: 'relative',
                                     overflow: 'hidden',
                                     transition: 'transform 0.5s ease'
                                 }}
                             >
-                                <span style={{ position: 'relative', zIndex: 2 }}>Project Image</span>
-                                <div
-                                    style={{
-                                        position: 'absolute',
-                                        top: 0,
-                                        left: 0,
-                                        width: '100%',
-                                        height: '100%',
-                                        background: 'rgba(0, 0, 0, 0.3)',
-                                        opacity: 0,
-                                        transition: 'opacity 0.3s ease',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        zIndex: 1
-                                    }}
-                                    className="project-overlay"
-                                />
+                                <span style={{ position: 'relative', zIndex: 2, fontSize: '3rem' }}>
+                                    {i === 0 ? '💰' : i === 1 ? '🏥' : i === 2 ? '🌱' : '✨'}
+                                </span>
                             </div>
-                            <div style={{ padding: '2rem' }}>
+                            <div style={{ padding: '1.5rem 2rem 2rem' }}>
                                 <span
-                                    className={headerAnimation.isVisible ? `fade-in-right stagger-${i + 1}` : ''}
                                     style={{
-                                        fontSize: '0.8rem',
+                                        fontSize: '0.78rem',
                                         color: 'var(--color-primary)',
                                         fontWeight: 'bold',
                                         textTransform: 'uppercase',
-                                        opacity: headerAnimation.isVisible ? 1 : 0
+                                        letterSpacing: '0.05em'
                                     }}
                                 >
                                     {p.cat}
                                 </span>
                                 <h3 style={{ margin: '0.5rem 0' }}>{p.title}</h3>
-                                <p style={{ color: 'var(--color-text-light)' }}>{p.desc}</p>
+                                <p style={{ color: 'var(--color-text-light)', lineHeight: 1.7 }}>{p.desc}</p>
                             </div>
-                            <style>{`
-                                .hover-scale:hover .project-overlay {
-                                    opacity: 1 !important;
-                                }
-                            `}</style>
                         </Card>
                     ))}
                 </div>
@@ -116,4 +98,3 @@ const Portfolio = () => {
 };
 
 export default Portfolio;
-

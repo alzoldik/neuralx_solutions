@@ -3,21 +3,23 @@ import Section from '../components/ui/Section';
 import Card from '../components/ui/Card';
 import Button from '../components/ui/Button';
 import useScrollAnimation from '../hooks/useScrollAnimation';
-
-const services = [
-    { title: "AI & Machine Learning", desc: "Predictive models, NLP, and computer vision integration.", icon: "🤖" },
-    { title: "SaaS Development", desc: "Scalable multi-tenant architectures for modern web apps.", icon: "☁️" },
-    { title: "Mobile Technologies", desc: "Cross-platform apps built with React Native and Flutter.", icon: "📱" },
-    { title: "Cloud DevOps", desc: "CI/CD pipelines, containerization, and infrastructure as code.", icon: "🚀" },
-    { title: "Data Analytics", desc: "Transform raw data into actionable business insights.", icon: "📊" },
-    { title: "Cybersecurity", desc: "Enterprise-grade security audits and implementation.", icon: "🔒" }
-];
+import { useLanguage } from '../context/LanguageContext';
 
 const Services = () => {
     const headerAnimation = useScrollAnimation({ threshold: 0.2 });
+    const { t } = useLanguage();
+
+    const services = [
+        { title: t('svc_ai_ml'), desc: t('svc_ai_ml_desc'), icon: '🤖' },
+        { title: t('svc_saas'), desc: t('svc_saas_desc'), icon: '☁️' },
+        { title: t('svc_mobile'), desc: t('svc_mobile_desc'), icon: '📱' },
+        { title: t('svc_devops'), desc: t('svc_devops_desc'), icon: '🚀' },
+        { title: t('svc_data'), desc: t('svc_data_desc'), icon: '📊' },
+        { title: t('svc_security'), desc: t('svc_security_desc'), icon: '🔒' }
+    ];
 
     return (
-        <div style={{ paddingTop: '80px' }}>
+        <div style={{ paddingTop: 'var(--nav-height)' }}>
             <Section className="text-center">
                 <div ref={headerAnimation.ref}>
                     <h1
@@ -28,19 +30,20 @@ const Services = () => {
                             opacity: headerAnimation.isVisible ? 1 : 0
                         }}
                     >
-                        Our Services
+                        {t('services_title')}
                     </h1>
                     <p
                         className={headerAnimation.isVisible ? 'fade-in-down stagger-1' : ''}
                         style={{
                             maxWidth: '700px',
                             margin: '0 auto',
-                            fontSize: '1.2rem',
+                            fontSize: '1.15rem',
                             color: 'var(--color-text-light)',
-                            opacity: headerAnimation.isVisible ? 1 : 0
+                            opacity: headerAnimation.isVisible ? 1 : 0,
+                            lineHeight: 1.8
                         }}
                     >
-                        End-to-end software solutions tailored for the enterprise.
+                        {t('services_desc')}
                     </p>
                 </div>
             </Section>
@@ -55,7 +58,7 @@ const Services = () => {
                             delay={Math.min(i + 1, 6)}
                         >
                             <div
-                                className="hover-scale bounce"
+                                className="hover-scale"
                                 style={{
                                     fontSize: '3rem',
                                     marginBottom: '1rem',
@@ -65,9 +68,9 @@ const Services = () => {
                                 {s.icon}
                             </div>
                             <h3 style={{ marginBottom: '0.5rem' }}>{s.title}</h3>
-                            <p style={{ color: 'var(--color-text-light)', marginBottom: '1.5rem' }}>{s.desc}</p>
+                            <p style={{ color: 'var(--color-text-light)', marginBottom: '1.5rem', lineHeight: 1.7 }}>{s.desc}</p>
                             <Button variant="secondary" style={{ fontSize: '0.9rem', padding: '0.5rem 1rem' }}>
-                                Learn More
+                                {t('services_learn_more')}
                             </Button>
                         </Card>
                     ))}
@@ -78,4 +81,3 @@ const Services = () => {
 };
 
 export default Services;
-
